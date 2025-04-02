@@ -1,4 +1,6 @@
 
+import secrets
+
 __all__ = ('Base_Platform',)
 
 
@@ -12,7 +14,7 @@ from aiosqlite import Connection
 import asyncio
 from db import *
 import json
-import random,time
+import time
 
 
 class Base_Platform():
@@ -68,7 +70,7 @@ class Base_Platform():
         Will be call if there is nothing in the db or all A records exist in the db become invalid. 
 
         '''
-        url:str = random.choice(globals()[f'{self.platform}_URL_TO_TEST'.upper()])
+        url:str = secrets.choice(globals()[f'{self.platform}_URL_TO_TEST'.upper()])
     
         dns_record_set = await Crawler(self.session, test_type='dns', url_to_test=url).test()
         async with asyncio.TaskGroup() as tg:
@@ -116,7 +118,7 @@ class Base_Platform():
         return self.res_dict
 
     async def test_and_filter(self, isp: str, now_up_record_list: list):
-        base_url = random.choice(globals()[self.platform.upper()+'_URL_TO_TEST'])
+        base_url = secrets.choice(globals()[self.platform.upper()+'_URL_TO_TEST'])
         
         for result in asyncio.as_completed(
                 [Crawler(self.session, isp=[isp], url_to_test=base_url, force_resovle_ip=f'{a_record[0]}').test() for a_record in now_up_record_list if not a_record in self.res_dict[self.platform]['result'][isp]]):
