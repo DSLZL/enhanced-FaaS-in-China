@@ -50,9 +50,9 @@ class DB():
         Returns:
             false: if exist the a_record to be insert
             true: if not exist
-        '''        ''''''
+        '''
         try:
-            await self.db.execute(f'''insert into {self.platform}_a_record_table(a_record) values(\'{a_record}\')''')
+            await self.db.execute(f'''insert into {self.platform}_a_record_table(a_record) values(?)''', (a_record, ))
         except IntegrityError:
             return False
         except Exception as e:
