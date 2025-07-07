@@ -1,3 +1,5 @@
+import secrets
+
 __all__ = ('Base_Platform',)
 
 
@@ -12,7 +14,6 @@ import asyncio
 from db import *
 import json
 from upload_file_to_github import *
-import random
 class TestDomainManager:
     def __init__(self, url_to_test, selected_domain=[]):
         """初始化测试域名管理器
@@ -107,7 +108,7 @@ class TestDomainManager:
             return None
         
         # 随机选择一个可用测试域名
-        domain = random.choice(self._available_test_domains)
+        domain = secrets.choice(self._available_test_domains)
         
         # 标记为使用中并从可用列表中移除
         self._domains_in_use[domain] = time.time()
@@ -132,7 +133,7 @@ class TestDomainManager:
             return None
         
         # 随机选择一个可用优选域名
-        domain = random.choice(self._available_selected_domains)
+        domain = secrets.choice(self._available_selected_domains)
         
         # 标记为使用中并从可用列表中移除
         self._domains_in_use[domain] = time.time()
